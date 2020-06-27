@@ -2,6 +2,12 @@ import serial
 import crc16
 import time
 
+# print("Hello World")
+# print(crc16.crc16xmodem(b'123456789'))
+# print(crc16.crc16xmodem(b"\x01\x06\x00\x01\x01\x00"))
+# print(b"\x01\x06\x00\x01\x01\x00")
+
+
 with serial.Serial(port='/dev/ttyUSB0', 
     baudrate=9600, 
     bytesize=serial.EIGHTBITS, 
@@ -9,7 +15,8 @@ with serial.Serial(port='/dev/ttyUSB0',
     stopbits=serial.STOPBITS_ONE
     ) as ser:
     ser.flush()
-    # print(crc16.crc16xmodem(b"\x01\x06\x00\x02\x02\x00"))
+    
+    
     
     # Turn on - SLAVE 1
     ser.write(b"\x01\x06\x00\x01\x01\x00\xD9\x9A")
@@ -61,6 +68,16 @@ with serial.Serial(port='/dev/ttyUSB0',
     ser.write(b"\x02\x06\x00\x0F\x01\x00\xB8\x6A")
     time.sleep(1)
     ser.write(b"\x02\x06\x00\x10\x01\x00\x89\xAC")
+    time.sleep(5)
+
+    # Turn on - SLAVE 5
+    ser.write(b"\x05\x05\x00\x00\x00\x01\x0D\x8E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x01\x00\x01\x5C\x4E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x02\x00\x01\xAC\x4E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x03\x00\x01\xFD\x8E")
     time.sleep(5)
 
     # Turn off - SLAVE 1
@@ -116,3 +133,14 @@ with serial.Serial(port='/dev/ttyUSB0',
     time.sleep(1)
     ser.write(b"\x02\x06\x00\x10\x02\x00\x89\x5C")
     time.sleep(5)
+
+    # Turn off - SLAVE 5
+    ser.write(b"\x05\x05\x00\x00\x00\x00\xCC\x4E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x01\x00\x00\x9D\x8E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x02\x00\x00\x6D\x8E")
+    time.sleep(1)
+    ser.write(b"\x05\x05\x00\x03\x00\x00\x3C\x4E")
+    time.sleep(5)
+    
