@@ -16,9 +16,10 @@ with serial.Serial(port='/dev/ttyUSB0',
     ) as ser:
     ser.flush()
     
-    
-    
+        
     # Turn on - SLAVE 1
+    # \xUnit_ID\0xFC\0xAdress\0xAdress\0xValue\0xValue\0xCRC16\0xCRC16
+    # Adress, Value and CRC16 = 2 Bytes
     ser.write(b"\x01\x06\x00\x01\x01\x00\xD9\x9A")
     time.sleep(1)
     ser.write(b"\x01\x06\x00\x02\x01\x00\x29\x9A")
@@ -144,3 +145,14 @@ with serial.Serial(port='/dev/ttyUSB0',
     ser.write(b"\x05\x05\x00\x03\x00\x00\x3C\x4E")
     time.sleep(5)
     
+
+    # Read Proxsys Analog Input 1
+    ser.write(b"\x05\x03\x00\x0F\x00\x01\xB5\x8D")
+    AnalogIn1 = ser.Read(8)
+    print(AnalogIn1)
+
+
+    # Read Proxsys Analog Input 2
+    ser.write(b"\x05\x03\x00\x10\x00\x01\xB5\x8D")
+    AnalogIn2 = ser.Read(8)
+    print(AnalogIn2)
